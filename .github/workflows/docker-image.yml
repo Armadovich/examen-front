@@ -34,7 +34,7 @@ jobs:
   
       - name: Log in to Docker Hub (Artifactory)
         run: |
-          echo ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_API_KEY }} | docker login myartifactory.jfrog.io -u ${{ secrets.JFROG_USER }} --password-stdin
+          echo ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_API_KEY }} | docker login calculadoraarmada.jfrog.io -u ${{ secrets.JFROG_USER }} --password-stdin
   
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -49,8 +49,8 @@ jobs:
   
       - name: Build Docker image
         run: |
-          docker build -t myartifactory.jfrog.io/docker-local/my-app:${{ github.sha }} .
+          docker build -t calculadoraarmada.jfrog.io/docker-local/my-app:${{ github.sha }} .
   
       - name: Push Docker image to Artifactory
         run: |
-          docker push myartifactory.jfrog.io/docker-local/my-app:${{ github.sha }}
+          docker push calculadoraarmada.jfrog.io/docker-local/my-app:${{ github.sha }}
