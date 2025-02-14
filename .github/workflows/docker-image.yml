@@ -54,4 +54,5 @@ jobs:
       - name: Push Docker image to Artifactory
         run: |
           docker push calculadoraarmada.jfrog.io/docker-local/my-app:${{ github.sha }}
+
           
