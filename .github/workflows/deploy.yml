@@ -3,7 +3,7 @@ name: Build and Deploy to Render
 on:
   push:
     branches:
-      - main  # Se ejecuta cuando se hace push a la rama main
+      - main
 
 jobs:
   build-and-push:
