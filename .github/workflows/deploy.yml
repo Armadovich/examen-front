@@ -31,10 +31,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Render CLI
+      - name: Install and Authenticate Render CLI
         run: |
           curl -fsSL https://get.render.com | sh
+          render login --api-key ${{ secrets.RENDER_API_KEY }} # Authenticate immediately
 
       - name: Deploy to Render
         run: |
-          ~/.config/render/bin/render deploy --service-id ${{ secrets.RENDER_SERVICE_ID }} --api-key ${{ secrets.RENDER_API_KEY }}
+          render deploy --service-id ${{ secrets.RENDER_SERVICE_ID }}
