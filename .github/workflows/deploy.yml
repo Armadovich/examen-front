@@ -33,9 +33,10 @@ jobs:
 
       - name: Install and Authenticate Render CLI
         run: |
-          wget -qO - https://www.get.render.com | sh # Use wget
-          render login --api-key ${{ secrets.RENDER_API_KEY }}
+          wget -qO - https://www.get.render.com | sh
+          echo "$HOME/.config/render/bin" >> $GITHUB_PATH # Add to PATH
 
       - name: Deploy to Render
         run: |
+          render login --api-key ${{ secrets.RENDER_API_KEY }}
           render deploy --service-id ${{ secrets.RENDER_SERVICE_ID }}
