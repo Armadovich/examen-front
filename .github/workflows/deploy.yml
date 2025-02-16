@@ -31,8 +31,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install Render CLI
+        run: |
+          curl -fsSL https://get.render.com | sh
+
       - name: Deploy to Render
-        uses: JorgeLNJunior/render-deploy@v1
-        with:
-          service_id: ${{ secrets.RENDER_SERVICE_ID }}
-          api_key: ${{ secrets.RENDER_API_KEY }}
+        run: |
+          render deploy --service-id ${{ secrets.RENDER_SERVICE_ID }} --api-key ${{ secrets.RENDER_API_KEY }}
