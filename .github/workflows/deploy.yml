@@ -30,17 +30,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Instalar Render CLI
-        run: |
-          curl -fsSL https://github.com/render/render-cli/releases/latest/download/render-linux-amd64 -o render
-          chmod +x render
-          sudo mv render /usr/local/bin/
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-      - name: Verificar instalación de Render CLI
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Render CLI
+        run: npm install -g render-cli
+
+      - name: Verify Render CLI Installation
         run: render --version
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        run: render deploy --service YOUR_RENDER_SERVICE_ID --wait
 
       - name: Desplegar a Render
         run: render deploy --api-key ${{ secrets.RENDER_API_KEY }} --service-id ${{ secrets.RENDER_SERVICE_ID }}
