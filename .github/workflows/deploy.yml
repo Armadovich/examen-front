@@ -28,17 +28,14 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: docker-hub
     steps:
       - uses: actions/checkout@v3
 
       - name: Install Render CLI
-        run: |
-          wget -qO - https://www.get.render.com | sh
-          mkdir -p ~/.config/render/bin
-          mv ~/.render/bin/render ~/.config/render/bin/render
-          chmod +x ~/.config/render/bin/render
+        run: curl -fsSL https://render.com/install | bash
 
       - name: Deploy to Render
         run: |
-          ~/.config/render/bin/render login --api-key ${{ secrets.RENDER_API_KEY }}
-          ~/.config/render/bin/render deploy --service-id ${{ secrets.RENDER_SERVICE_ID }}
+          export PATH=$HOME/.render/bin:$PATH
+          render deploy --api-key ${{ secrets.RENDER_API_KEY }} --service-id ${{ secrets.RENDER_SERVICE_ID }}
