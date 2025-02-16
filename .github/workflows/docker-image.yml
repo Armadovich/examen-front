@@ -11,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -28,16 +27,14 @@ jobs:
           tags: armadovich/examen-front:latest
 
   build:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-  
 
-      - name: Log in to Artifactory
+      - name: Login to Artifactory (using API Key)
         run: |
-          echo ${{ secrets.JFROG_USER }}:${{ secrets.JFROG_API_KEY }} | docker login calculadoraarmada.jfrog.io -u ${{ secrets.JFROG_USER }} --password-stdin
-  
+          docker login calculadoraarmada.jfrog.io -u ${{ secrets.JFROG_USER }} -p ${{ secrets.JFROG_API_KEY }}
 
       - name: Cache Docker layers
         uses: actions/cache@v3
@@ -47,7 +44,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
 
-
       - name: Build Docker image
         run: |
           docker build -t calculadoraarmada.jfrog.io/docker-local/my-app:${{ github.sha }} .
@@ -55,4 +51,3 @@ jobs:
       - name: Push Docker image to Artifactory
         run: |
           docker push calculadoraarmada.jfrog.io/docker-local/my-app:${{ github.sha }}
-
