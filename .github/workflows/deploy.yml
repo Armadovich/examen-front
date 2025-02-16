@@ -31,13 +31,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install and Authenticate Render CLI
+      - name: Install Render CLI
         run: |
           wget -qO - https://www.get.render.com | sh
-          echo "$HOME/.config/render/bin" >> $GITHUB_PATH  # Add to PATH
-          source $HOME/.config/render/profile # Source the Render profile
-          render login --api-key ${{ secrets.RENDER_API_KEY }}
+          mkdir -p ~/.config/render/bin
+          mv ~/.render/bin/render ~/.config/render/bin/render
+          chmod +x ~/.config/render/bin/render
 
       - name: Deploy to Render
         run: |
-          render deploy --service-id ${{ secrets.RENDER_SERVICE_ID }}
+          ~/.config/render/bin/render login --api-key ${{ secrets.RENDER_API_KEY }}
+          ~/.config/render/bin/render deploy --service-id ${{ secrets.RENDER_SERVICE_ID }}
