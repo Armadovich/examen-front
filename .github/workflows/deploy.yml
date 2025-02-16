@@ -33,8 +33,8 @@ jobs:
 
       - name: Install and Authenticate Render CLI
         run: |
-          curl -fsSL https://get.render.com | sh
-          render login --api-key ${{ secrets.RENDER_API_KEY }} # Authenticate immediately
+          curl -fsSL https://www.get.render.com | sh
+          render login --api-key ${{ secrets.RENDER_API_KEY }}
 
       - name: Deploy to Render
         run: |
